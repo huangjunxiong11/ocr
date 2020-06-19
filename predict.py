@@ -16,15 +16,15 @@ def ocr_file(img_path):
     if flag1 is None:
         flag2 = judge.judge_card(img_path)
         if flag2 is None:
-            # return None
-            print('<{}>存在异常'.format(img_path))
+            return "异常"
+            # print('<{}>存在异常'.format(img_path))
 
         else:
-            print('<{}>的类别是：{}'.format(img_path, flag2))
-            # return flag2
+            # print('<{}>的类别是：{}'.format(img_path, flag2))
+            return flag2
     else:
-        print('<{}>的类别是：{}'.format(img_path, flag1))
-        # return flag1
+        # print('<{}>的类别是：{}'.format(img_path, flag1))
+        return flag1
 
 
 def ocr_path(dir_path):
@@ -45,4 +45,4 @@ def ocr_path(dir_path):
 # ocr_file("/home/huangjx/Projects/Thursday_yolo3/bank_logo/HX800_FH18110508.jpg")  # 检测一张图片
 # ocr_file("/home/huangjx/Projects/Thursday_yolo3/bank_logo/ZS800_FH18051602.jpg")  # 检测一张图片
 # ocr_file("/home/huangjx/Projects/Thursday_yolo3/bank_logo/PF800_FH18112003.jpg")  # 检测一张图片
-pass
+# pass
