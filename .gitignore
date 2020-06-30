@@ -130,3 +130,10 @@ dmypy.json
 
 # self
 config.py
+huifeng
+data
+huifeng
+images
+utils/*.png
+utils/*.jpg
+银行卡
