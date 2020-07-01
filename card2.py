@@ -221,3 +221,12 @@ print("Credit Card Type: {}".format(FIRST_NUMBER[output[0]]))
 print("Credit Card #: {}".format("".join(output)))
 cv_show("Image", image)
 plt.imshow(image)
+
+# if __name__ == '__main__':
+#     for i in range(10):
+#         for j in range(10):
+#             if j == 2 :
+#                 break
+#                 pass
+#         pass
+#     pass

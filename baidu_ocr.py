@@ -25,6 +25,11 @@ class BaiduOcr(object):
             return fp.read()
 
     def gen_text(self, filepath):
+        """
+        输入的是图片路径，输出的是该图片上所识别出来的文字，是一个字符串
+        :param filepath:
+        :return:
+        """
         image = self.get_file_content(filepath)
         text = self.client.basicGeneral(image)
         try:
@@ -37,7 +42,7 @@ class BaiduOcr(object):
 
     def judge_card_baidu(self, filePath):
         """
-        判断一张图片的类别
+        输入的是一张图片的路径，判断这张图片的所属类别
         :param flag:
         :param filePath:
         :return:
@@ -47,10 +52,14 @@ class BaiduOcr(object):
         for num, flag in enumerate(flags):
             if flag in texts:
                 return flag
-
         return None
 
     def get_card_text(self, filepath):
+        """
+        输入的是一张图片的路径，输出的是该图片上所识别出来的银行类别文字是一个字符串
+        :param filepath:
+        :return:
+        """
         image = self.get_file_content(filepath)
         text = self.client.bankcard(image)  # 识别银行卡
         try:
@@ -62,6 +71,11 @@ class BaiduOcr(object):
         return texts
 
     def from_bin(self, img_bin):
+        """
+        输入的是一张图片的二进制表示，输出的是该图片上所识别出来的文字，是一个字符串
+        :param img_bin:
+        :return:
+        """
         text = self.client.basicGeneral(img_bin)
         try:
             words_result = text['words_result']
@@ -69,9 +83,17 @@ class BaiduOcr(object):
             words_result = []
         texts = [i['words'] for i in words_result]
         texts = "".join(itertools.chain(*texts))  # 将一维列表变成一个字符串
-        return texts
+        for flag in FLAGS:
+            if flag in texts:
+                return flag
+        return None
 
     def get_dir(self, dir):
+        """
+        输入一个文件夹，输入该文件夹下面包含的所有图片文件的路径
+        :param dir:
+        :return:
+        """
         bash_dir = os.path.abspath(dir)
         images = []
         images += glob.glob(os.path.join(bash_dir, '*.png'))
@@ -81,6 +103,11 @@ class BaiduOcr(object):
         return images
 
     def get_four_text(self, filename):
+        """
+        输入一张图片，通过切分四份的方法输出该图片上包含的文字
+        :param filename:
+        :return:
+        """
         texts = []
         ab = pre.four_cut(filename)
         for i, j in enumerate(ab):
@@ -94,28 +121,3 @@ class BaiduOcr(object):
 if __name__ == '__main__':
 
     ocr = BaiduOcr()
-    # pre = Pre()
-    #
-    # dir = "/home/huangjx/Projects/git-pro/ocr/银行卡/浦发银行-字体限制"
-    # images = ocr.get_dir(dir)
-    # for m, n in enumerate(images):
-    #     # print(n)
-    #     ab = pre.four_cut(n)
-    #     for i, j in enumerate(ab):
-    #         text = ocr.from_bin(j)
-    #         if '浦发' in text:
-    #             print(n)
-    #             break
-
-    # n = "/home/huangjx/Projects/git-pro/ocr/银行卡/浦发银行-字体限制/吉利.png"
-    # ab = pre.four_cut(n)
-    # for i, j in enumerate(ab):
-    #     text = ocr.from_bin(j)
-    #     if '浦发' in text:
-    #         print(n)
-    #         break
-
-    # ocr.gen_text('/home/huangjx/Projects/git-pro/ocr/ref_son1.png')
-
-    ocr.get_four_text("/home/huangjx/Projects/git-pro/ocr/银行卡/浦发银行-字体限制/吉利.png")
-    pass

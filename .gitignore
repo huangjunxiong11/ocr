@@ -137,3 +137,5 @@ images
 utils/*.png
 utils/*.jpg
 银行卡
+*.png
+utils/*.png

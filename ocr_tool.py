@@ -8,7 +8,7 @@ import config as cfg
 import os
 import glob
 from aip import AipOcr
-
+from config import FLAGS
 
 class OcrTool:
 
@@ -144,6 +144,26 @@ class OcrTool:
                 f.write(base64.b64decode(r))
         return r
 
+    def ocr_bin(self, img_bin):
+
+        try:
+            response = self.service.ocr(img_bin)
+        except:
+            response = list()
+        text_list = list()
+        try:
+            # response有可能出现返回错误值
+            for j in response:
+                if j['text'] != '':
+                    text_list.append(j['text'])
+        except:
+            text_list = []
+        texts = ''.join(text_list)
+        for flag in FLAGS:
+            if flag in texts:
+                return flag
+        return None
+
 
 class Judge(OcrTool):
     def __init__(self, url=cfg.URL):
@@ -159,7 +179,6 @@ class Judge(OcrTool):
             if flag in texts:
                 return flag
         return None
-
 
 
 if __name__ == '__main__':
