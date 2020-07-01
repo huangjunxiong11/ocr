@@ -55,7 +55,7 @@ def ocr_path(dir_path):
         # ocr_file(img_path)
         # img_path = os.path.join(bash_dir, (str(img_path)).zfill(4) + '.png')
         ocr_file_from_bin(img_path)
-        time.sleep(2)
+        time.sleep(2)  # 不能高并发，所以暂停一会
 
 
 def bin_ocr_file(img_path):
@@ -94,10 +94,11 @@ def ocr_file_from_bin(img_path):
     for m, n in enumerate(four_bin):
         a = bin_ocr_file(n)
         if a is not None:
-            print('<{}>的类别是：{}'.format(img_path, a))
+            # print('<{}>的类别是：{}'.format(img_path, a))
             return a
 
-    print('<{}>识别不了'.format(img_path))
+    # print('<{}>识别不了'.format(img_path))
+    return None
 
 
 def dir(dir):
@@ -117,7 +118,7 @@ def dir(dir):
 
 if __name__ == '__main__':
     # 图片
-    # ocr_file_from_bin("/home/huangjx/Projects/git-pro/ocr/银行卡/上海银行-素材/0000.png")
+    ocr_file_from_bin("/home/huangjx/Projects/git-pro/ocr/银行卡/上海银行-素材/0000.png")
 
     # 文件夹路径
-    ocr_path("/home/huangjx/Projects/git-pro/ocr/银行卡/广发银行-素材")
+    # ocr_path("/home/huangjx/Projects/git-pro/ocr/银行卡/广发银行-素材")
