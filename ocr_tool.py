@@ -10,6 +10,7 @@ import glob
 from aip import AipOcr
 from config import FLAGS
 
+
 class OcrTool:
 
     def __init__(self, ocr_docker_url):
@@ -163,6 +164,23 @@ class OcrTool:
             if flag in texts:
                 return flag
         return None
+
+    def ocr_bin_to_text(self, img_bin):
+
+        try:
+            response = self.service.ocr(img_bin)
+        except:
+            response = list()
+        text_list = list()
+        try:
+            # response有可能出现返回错误值
+            for j in response:
+                if j['text'] != '':
+                    text_list.append(j['text'])
+        except:
+            text_list = []
+        texts = ''.join(text_list)
+        return texts
 
 
 class Judge(OcrTool):

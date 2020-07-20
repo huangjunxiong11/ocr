@@ -31,6 +31,7 @@ class BaiduOcr(object):
         :return:
         """
         image = self.get_file_content(filepath)
+        # a = image.decode('utf-8')  # 代码出错，参数无效
         text = self.client.basicGeneral(image)
         try:
             words_result = text['words_result']
@@ -88,6 +89,21 @@ class BaiduOcr(object):
                 return flag
         return None
 
+    def from_bin_to_text(self, img_bin):
+        """
+        输入的是一张图片的二进制表示，输出的是该图片上所识别出来的文字，是一个字符串
+        :param img_bin:
+        :return:
+        """
+        text = self.client.basicGeneral(img_bin)
+        try:
+            words_result = text['words_result']
+        except:
+            words_result = []
+        texts = [i['words'] for i in words_result]
+        texts = "".join(itertools.chain(*texts))  # 将一维列表变成一个字符串
+        return texts
+
     def get_dir(self, dir):
         """
         输入一个文件夹，输入该文件夹下面包含的所有图片文件的路径
@@ -119,5 +135,4 @@ class BaiduOcr(object):
 
 
 if __name__ == '__main__':
-
     ocr = BaiduOcr()
