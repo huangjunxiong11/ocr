@@ -1,4 +1,6 @@
 import os
+import shutil
+import time
 
 from db.db_findall import Db_Operation
 from mp4_ocr import WeiBao
@@ -22,7 +24,7 @@ class Run():
         """
         self.weibao.from_mp4_get_frame(mp4_path)
         flag = self.weibao.mp4_works_identify(sensitive_works)
-        os.remove('./frame')  # 检测一个视频之后要将缓冲的帧图片删除掉
+        shutil.rmtree('./frame')  # 检测一个视频之后要将缓冲的帧图片删除掉
         return flag
 
     def test_case(self, sensitive_works):
@@ -40,11 +42,38 @@ class Run():
         if not (jpgs is None and mp4s is None):
             for i, mp4 in enumerate(mp4s):
                 mp4 = os.path.join(r'http://adsys.gzfsnet.com/python/Api/gdt_v3', mp4)
-                flag = self.mp4_identify(mp4_path=mp4, sensitive_works=sensitive_works)
+                try:
+                    # print(mp4)
+                    flag = self.mp4_identify(mp4_path=mp4, sensitive_works=sensitive_works)
+                except:
+                    # print(mp4)
+                    flag = False
                 if flag:
                     print("视频{}包含敏感词{}".format(mp4, sensitive_works))
 
 
-if __name__ == '__main__':
+def timer(func):
+    def wrapper(*args, **kwds):
+        t0 = time.time()
+        func(*args, **kwds)
+        t1 = time.time()
+        print('耗时%0.3f' % (t1 - t0,))
+
+    return wrapper
+
+
+@timer
+def main():
+    """
+    示例入门代码
+    :return:
+    """
     run = Run()
-    run.mp4_identify()
+    result = run.mp4_identify("/home/huangjx/Projects/git-pro/ocr/data/heng.mp4", yilx_sensitive_works)
+    # run.test_case(yilx_sensitive_works)
+    # print(result)
+    # run.test_case(sensitive_works=yilx_sensitive_works)
+
+
+if __name__ == '__main__':
+    main()

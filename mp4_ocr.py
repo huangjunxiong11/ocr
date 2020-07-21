@@ -98,20 +98,20 @@ class Mp4Pre(object):
         :param filename:
         :return:
         """
-        try:
-            texts1 = self.file_texts(filename)
-        except:
-            texts1 = ''
+        # try:
+        #     texts1 = self.file_texts(filename)
+        # except:
+        #     texts1 = ''
         try:
             texts2 = self.fengshen_texts(filename)
         except:
             texts2 = ''
-        try:
-            texts3 = self.baidu_texts(filename)
-        except:
-            texts3 = ''
-        texts = texts1 + texts2 + texts3
-        # texts = texts2
+        # try:
+        #     texts3 = self.baidu_texts(filename)
+        # except:
+        #     texts3 = ''
+        # texts = texts1 + texts2 + texts3
+        texts = texts2
         return texts
 
 
@@ -139,7 +139,7 @@ class WeiBao(Mp4Pre):
                 save_name = os.path.join(self.frame_path, "%05d.jpg" % i)
                 img.save(save_name)
                 # cv2.imwrite(save_name, frame)
-                yield save_name
+                # yield save_name
             i += 1
 
     def img_works_identify(self, filename, sensitive_words):
@@ -169,17 +169,20 @@ class WeiBao(Mp4Pre):
         images += glob.glob(os.path.join(bash_dir, '*.jpg'))
         # images += glob.glob(os.path.join(bash_dir, '*.jpeg'))
         for i, image in enumerate(images):
+            # print(image)
             if self.img_works_identify(image, sensitive_words):
                 return True
         return False
 
 
-
 if __name__ == '__main__':
-    fangaix_sensitive_works = ['医疗险', '百万医疗险', '600万', '1元', '14元', '人保', '中国人保', '售完即止', '再不买就没了']
-    yilx_sensitive_works = ['防癌', '防癌险', '200万', '3元', '4.1元', '人保', '中国人保', '售完即止', '再买就没了']
-    mp4pre = Mp4Pre()
-    name = "/home/huangjx/Projects/git-pro/ocr/data/shu-/00690.jpg"
-    print(mp4pre.file_texts(name))
-    print(mp4pre.baidu_texts(name))
-    print(mp4pre.fengshen_texts(name))
+    # fangaix_sensitive_works = ['医疗险', '百万医疗险', '600万', '1元', '14元', '人保', '中国人保', '售完即止', '再不买就没了']
+    # yilx_sensitive_works = ['防癌', '防癌险', '200万', '3元', '4.1元', '人保', '中国人保', '售完即止', '再买就没了']
+    # mp4pre = Mp4Pre()
+    # name = "/home/huangjx/Projects/git-pro/ocr/data/shu-/00690.jpg"
+    # print(mp4pre.file_texts(name))
+    # print(mp4pre.baidu_texts(name))
+    # print(mp4pre.fengshen_texts(name))
+    # weibao = WeiBao('./frame')
+    # weibao.from_mp4_get_frame('/home/huangjx/Projects/git-pro/ocr/data/heng.mp4')
+    pass
