@@ -1,4 +1,5 @@
 import os
+import random
 import shutil
 import time
 
@@ -22,9 +23,9 @@ class Run():
         :param sentitive_works: 例如['防癌', '防癌险', '200万', '3元', '4.1元', '人保', '中国人保', '售完即止', '再买就没了']
         :return: True或False
         """
-        self.weibao.from_mp4_get_frame(mp4_path)
+        basename = self.weibao.from_mp4_get_frame(mp4_path)
         flag = self.weibao.mp4_works_identify(sensitive_works)
-        shutil.rmtree('./frame')  # 检测一个视频之后要将缓冲的帧图片删除掉
+        shutil.rmtree(basename)  # 检测一个视频之后要将缓冲的帧图片删除掉
         return flag
 
     def test_case(self, sensitive_works):
@@ -71,7 +72,7 @@ def main():
     run = Run()
     result = run.mp4_identify("/home/huangjx/Projects/git-pro/ocr/data/heng.mp4", yilx_sensitive_works)
     # run.test_case(yilx_sensitive_works)
-    # print(result)
+    print(result)
     # run.test_case(sensitive_works=yilx_sensitive_works)
 
 

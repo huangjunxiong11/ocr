@@ -128,19 +128,21 @@ class WeiBao(Mp4Pre):
         :param frame_path:
         :return:
         """
+        basename = os.path.basename(mp4_path).split('.')[0]
         clip = VideoFileClip(mp4_path)
-        if not os.path.exists(self.frame_path):
-            os.makedirs(self.frame_path)
+        if not os.path.exists(basename):
+            os.makedirs(basename)
         i = 1
         fps = clip.fps
         for frame in clip.iter_frames():
             if i % fps == 0:
                 img = Image.fromarray(frame)
-                save_name = os.path.join(self.frame_path, "%05d.jpg" % i)
+                save_name = os.path.join(basename, "%05d.jpg" % i)
                 img.save(save_name)
                 # cv2.imwrite(save_name, frame)
                 # yield save_name
             i += 1
+        return os.path.abspath(basename)
 
     def img_works_identify(self, filename, sensitive_words):
         """
