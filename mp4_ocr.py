@@ -116,21 +116,19 @@ class Mp4Pre(object):
 
 
 class WeiBao(Mp4Pre):
-    def __init__(self, mp4_path, frame_path, sensitive_words):
+    def __init__(self, frame_path):
         super().__init__()
         self.frame_path = frame_path
-        self.mp4_path = mp4_path
-        self.sensitive_words = sensitive_words
         pass
 
-    def from_mp4_get_frame(self):
+    def from_mp4_get_frame(self, mp4_path):
         """
         输出一个视频，然后将该视频的图片帧给保存下来
         :param mp4_path:
         :param frame_path:
         :return:
         """
-        clip = VideoFileClip(self.mp4_path)
+        clip = VideoFileClip(mp4_path)
         if not os.path.exists(self.frame_path):
             os.makedirs(self.frame_path)
         i = 1
@@ -144,7 +142,7 @@ class WeiBao(Mp4Pre):
                 yield save_name
             i += 1
 
-    def img_works_identify(self, filename):
+    def img_works_identify(self, filename, sensitive_words):
         """
         输入一张图片，输出这张图片的所有可能文字中是否包含敏感词，如果有包含，返回True
         True表示包含敏感词
@@ -153,12 +151,12 @@ class WeiBao(Mp4Pre):
         :return:
         """
         texts = self.frame_img_texts(filename)
-        for i, work in enumerate(self.sensitive_words):
+        for i, work in enumerate(sensitive_words):
             if work in texts:
                 return True
         return False
 
-    def mp4_works_identify(self):
+    def mp4_works_identify(self, sensitive_words):
         """
         输入一个包含frame图片的文件夹，如果某一张图片中存在某些敏感词，则直接返回True，中断循环
         True表示包含敏感词
@@ -171,9 +169,10 @@ class WeiBao(Mp4Pre):
         images += glob.glob(os.path.join(bash_dir, '*.jpg'))
         # images += glob.glob(os.path.join(bash_dir, '*.jpeg'))
         for i, image in enumerate(images):
-            if self.img_works_identify(image):
+            if self.img_works_identify(image, sensitive_words):
                 return True
         return False
+
 
 
 if __name__ == '__main__':
@@ -184,4 +183,3 @@ if __name__ == '__main__':
     print(mp4pre.file_texts(name))
     print(mp4pre.baidu_texts(name))
     print(mp4pre.fengshen_texts(name))
-    # mp4pre.baseb4_img()
