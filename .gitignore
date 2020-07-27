@@ -141,3 +141,6 @@ utils/*.jpg
 utils/*.png
 frame
 heng
+
+# second self
+ocr/module/test

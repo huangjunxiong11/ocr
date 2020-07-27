@@ -1,14 +1,8 @@
 import os
 import re
 import traceback
-import sys
-
-sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))).split('db')[0])
-
 from sqlalchemy import create_engine
-from db.exception import *
-from db.geninfor import GenInfor
-from db.config import *
+from .exception import *
 
 
 class Single(object):
@@ -254,9 +248,4 @@ class MysqlAlchemy(Single):
 
 
 if __name__ == '__main__':
-    con_mysql = MysqlAlchemy(host=HOST,
-                             port=PORT,
-                             password=PASSWORD,
-                             db=DB,
-                             user=USER)
     pass

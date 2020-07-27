@@ -1,17 +1,10 @@
 # -*- coding: utf-8 -*-
 import base64
-import itertools
-
 import requests
 from flask_jsonrpc.proxy import ServiceProxy
-import config as cfg
-import os
-import glob
-from aip import AipOcr
-from config import FLAGS
 
 
-class OcrTool:
+class FsOcr:
 
     def __init__(self, ocr_docker_url):
         if not str(ocr_docker_url).startswith('http://'):
@@ -34,7 +27,6 @@ class OcrTool:
             img = base64.b64encode(binary_content).decode()
         else:
             raise ValueError('You should set url or file_path or binary_content.')
-
         try:
             response = self.service.ocr(img)
         except:
@@ -145,75 +137,6 @@ class OcrTool:
                 f.write(base64.b64decode(r))
         return r
 
-    def ocr_bin(self, img_bin):
-
-        try:
-            response = self.service.ocr(img_bin)
-        except:
-            response = list()
-        text_list = list()
-        try:
-            # response有可能出现返回错误值
-            for j in response:
-                if j['text'] != '':
-                    text_list.append(j['text'])
-        except:
-            text_list = []
-        texts = ''.join(text_list)
-        for flag in FLAGS:
-            if flag in texts:
-                return flag
-        return None
-
-    def ocr_bin_to_text(self, img_bin):
-
-        try:
-            response = self.service.ocr(img_bin)
-        except:
-            response = list()
-        text_list = list()
-        try:
-            # response有可能出现返回错误值
-            for j in response:
-                if j['text'] != '':
-                    text_list.append(j['text'])
-        except:
-            text_list = []
-        texts = ''.join(text_list)
-        return texts
-
-
-class Judge(OcrTool):
-    def __init__(self, url=cfg.URL):
-        super(Judge, self).__init__(ocr_docker_url=url)
-
-    def judge_card(self, filepath):
-        texts = self.ocr(file_path=filepath)
-        # baidu = BaiduOcr()
-        # texts_baidu = baidu.gen_text(filePath=filepath)
-        # texts = texts + texts_baidu
-        flags = cfg.FLAGS
-        for num, flag in enumerate(flags):
-            if flag in texts:
-                return flag
-        return None
-
 
 if __name__ == '__main__':
-    # 示例
-    object = Judge()
-    # object.judeg_card_dir('_bank_logo')
-    object.judge_card('/home/huangjx/Projects/git-pro/ocr/ref_son1.png')
-    """
-    注意：所有图片位于文件夹data下面
-    """
-# 自信一点,你的优点呢?
-# 你想要一个什么样的生活?
-# 她的生活跟你的生活差别太大了,觉得自己不配?你是不是觉得自己不配?
-# 你能付出什么?她想要什么?
-# 如何挣钱?我是不是飘了
-# 你想要被自己喜欢的人爱?所以你苦苦追寻,你要不要先去学着爱自己?就是说,如果你就是那个可能喜欢自己的人,你会喜欢现在的自己吗?
-# 如果你要爱自己,你如何去爱自己呢?做自己喜欢做的事情,给自己买自己喜欢的东西,让自己变好看,不再去想着未来能不能娶到老婆,
-# 如果未来我娶不到老婆,我还有自己永远不会离开自己的人,就是自己.我会永远爱着自己,会永远做着自己喜欢做的事情,永远让自己长得好看,
-# 那我对所谓的未来还有任何其它恐惧吗?对的,我要先学会去爱自己,做自己喜欢的事情,我一直都做着自己喜欢的事情,每个月的工资留不留也无所谓了.
-# 如果你都不爱自己,谁会来爱你?
+    pass

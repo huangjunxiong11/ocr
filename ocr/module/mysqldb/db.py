@@ -1,15 +1,9 @@
-import os
-import sys
 import time
-
-sys.path.insert(0, os.path.abspath(os.path.dirname(os.path.dirname(__file__))).split('db')[0])
-from db.Db import MysqlAlchemy
-import MySQLdb
-from db.config import HOST, PORT, PASSWORD, DB, USER
+from .DB import MysqlAlchemy
 
 
-class Db_Operation():
-    def __init__(self):
+class DbOperation(object):
+    def __init__(self, HOST, PORT, PASSWORD, DB, USER):
         """
         初始化连接数据库
         """
@@ -49,6 +43,6 @@ class Db_Operation():
 
 
 if __name__ == '__main__':
-    db_operation = Db_Operation()
-    a, b = db_operation.jpgs_mp4s
+    # db_operation = Db_Operation()
+    # a, b = db_operation.jpgs_mp4s
     pass
