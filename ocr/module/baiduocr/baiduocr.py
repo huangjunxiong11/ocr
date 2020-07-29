@@ -22,7 +22,7 @@ class BaiduOcr(object):
         with open(filePath, 'rb') as fp:
             return fp.read()
 
-    def get_text(self, filepath=None, bins=None):
+    def ocr(self, filepath=None, binary_content=None):
         """
         输入的是图片路径或者是二进制表示，输出的是该图片上所识别出来的文字，是一个字符串
         :param filepath:图片路径
@@ -33,7 +33,7 @@ class BaiduOcr(object):
                 image = self.get_file_content(filepath)
                 text = self.client.basicGeneral(image)
             else:
-                text = self.client.basicGeneral(bins)
+                text = self.client.basicGeneral(binary_content)
 
             words_result = text['words_result']
         except:
